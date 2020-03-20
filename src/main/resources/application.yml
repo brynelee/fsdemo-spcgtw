@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: service_consumer
+          uri: http://httpbin.org/
+          predicates:
+            - Path= /consumer/**
+          filters:
+            - StripPrefix=1
