@@ -5,12 +5,12 @@ fsdemo:
   loginPath: /usercenter/login
 spring:
   #redis配置数据
-  redis:
-    hostName: xdredis
-    port: 6379
-    database: 0
-    password:
-    timeout: 5000
+#  redis:
+#    hostName: xdredis
+#    port: 6379
+#    database: 0
+#    password:
+#    timeout: 5000
   cloud:
     gateway:
       routes:
