@@ -1,10 +1,12 @@
 package com.xdorg1.fsdemospcgtw;
 
+import com.xdorg1.fsdemospcgtw.filter.RequestTimeFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
+
 
 @SpringBootApplication
 public class FsdemoSpcgtwApplication {
@@ -12,13 +14,25 @@ public class FsdemoSpcgtwApplication {
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route("path_route", r -> r.path("/get")
+                .route("path_route", r -> r.path("/httpbin")
                         .uri("http://httpbin.org"))
                 .route("host_route", r -> r.host("*.myhost.org")
                         .uri("http://httpbin.org"))
                 .route("rewrite_route", r -> r.host("*.rewrite.org")
                         .filters(f -> f.rewritePath("/foo/(?<segment>.*)", "/${segment}"))
                         .uri("http://httpbin.org"))
+                .route("customer_filter_router", r -> r.path("/usercenter/**")
+                        .filters(f -> f.filter(new RequestTimeFilter())
+                                .addResponseHeader("X-Response-Default-Foo", "Default-Bar"))
+                        .uri("http://fsdemo-usercenter:8081/usercenter")
+                        .order(0)
+                )
+                .route("customer_filter_router2", r -> r.path("/**")
+                        .filters(f -> f.filter(new RequestTimeFilter())
+                                .addResponseHeader("X-Response-Default-Foo", "Default-Bar"))
+                        .uri("http://fsdemo-frontend:8080")
+                        .order(0)
+                )
 /*                .route("hystrix_route", r -> r.host("*.hystrix.org")
                         .filters(f -> f.hystrix(c -> c.setName("slowcmd")))
                         .uri("http://httpbin.org"))

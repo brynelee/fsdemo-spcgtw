@@ -1,10 +1,53 @@
+server:
+  port: 8060
+fsdemo:
+  authPath: /oauth/authorize
+  loginPath: /usercenter/login
 spring:
+  #redis配置数据
+  redis:
+    hostName: xdredis
+    port: 6379
+    database: 0
+    password:
+    timeout: 5000
   cloud:
     gateway:
       routes:
-        - id: service_consumer
-          uri: http://httpbin.org/
+        - id: httpbin
+          uri: http://httpbin.org
           predicates:
-            - Path= /consumer/**
+            - Path= /httpbin-test/**
           filters:
             - StripPrefix=1
+
+# 使用动态usercenter路由，因此在这里去掉了
+#        - id: fsdemo-frontend
+#          uri: http://fsdemo-frontend:8080
+#          predicates:
+#            - Path= /**
+#          filters:
+#            - StripPrefix=0
+
+# 使用动态usercenter路由，因此在这里去掉了
+#        - id: fsdemo-usercenter
+#          uri: http://fsdemo-usercenter:8081
+#          predicates:
+#            - Path= /usercenter/**
+#          filters:
+#            - StripPrefix=0
+
+
+        - id: transactionagentservice
+          uri: http://transactionagentservice:8082
+          predicates:
+            - Path= /tas/**
+          filters:
+            - StripPrefix=0
+
+        - id: fsdemo-authsrv
+          uri: http://fsdemo-authsrv:8084
+          predicates:
+            - Path= /oauth/**
+          filters:
+            - StripPrefix=0
