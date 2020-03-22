@@ -57,6 +57,5 @@ spring:
           uri: http://fsdemo-authsrv:8084
           predicates:
             - Path= /oauth/**
-            - Path= http://fsdemo-authsrv:8084/**
           filters:
             - StripPrefix=0
