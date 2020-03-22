@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.Ordered;
 
 
 @SpringBootApplication
@@ -24,14 +25,14 @@ public class FsdemoSpcgtwApplication {
                 .route("customer_filter_router", r -> r.path("/usercenter/**")
                         .filters(f -> f.filter(new RequestTimeFilter())
                                 .addResponseHeader("X-Response-Default-Foo", "Default-Bar"))
-                        .uri("http://fsdemo-usercenter:8081/usercenter")
+                        .uri("http://fsdemo-usercenter:8081")
                         .order(0)
                 )
                 .route("customer_filter_router2", r -> r.path("/**")
                         .filters(f -> f.filter(new RequestTimeFilter())
                                 .addResponseHeader("X-Response-Default-Foo", "Default-Bar"))
                         .uri("http://fsdemo-frontend:8080")
-                        .order(0)
+                        .order(Ordered.LOWEST_PRECEDENCE - 1000)
                 )
 /*                .route("hystrix_route", r -> r.host("*.hystrix.org")
                         .filters(f -> f.hystrix(c -> c.setName("slowcmd")))
