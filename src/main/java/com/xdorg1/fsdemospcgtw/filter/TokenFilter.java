@@ -1,5 +1,6 @@
 package com.xdorg1.fsdemospcgtw.filter;
 
+import com.xdorg1.fsdemospcgtw.utils.JWTUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.util.Date;
+
 @Service
 public class TokenFilter implements GlobalFilter, Ordered {
 
@@ -24,9 +27,6 @@ public class TokenFilter implements GlobalFilter, Ordered {
 
     @Value("${fsdemo.loginPath}")
     private String loginPath;
-
-/*    @Autowired
-    private RedisTokenStore tokenStore;*/
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -47,7 +47,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
 
-        }else if(!verifyToken(token)){
+        }else if(!JWTUtil.verifyToken(token)){
             logger.info( "token 无效，无法进行访问." );
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
@@ -82,15 +82,15 @@ public class TokenFilter implements GlobalFilter, Ordered {
         return rootAccess || isLoginRequest;
     }
 
-    //todo: to verify the JWT token, get public key and verify
-    private boolean verifyToken(String token){
 
-        return true;
-    }
 
     @Override
     public int getOrder() {
         return 0;
     }
+
+
+
+
 
 }
