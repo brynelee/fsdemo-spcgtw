@@ -75,6 +75,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
                 "/favicon.ico".equals(path) ||
                 path.indexOf("/js") >= 0 ||
                 path.indexOf("/img") >= 0 ||
+                path.indexOf("/css") >= 0 ||
                 path.indexOf("/sockjs-node") >= 0;
 
         boolean isLoginRequest = path.indexOf(authPath) >=0 || path.indexOf(loginPath) >=0;

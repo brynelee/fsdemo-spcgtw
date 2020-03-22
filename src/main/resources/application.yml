@@ -46,6 +46,13 @@ spring:
           filters:
             - StripPrefix=0
 
+        - id: fsdemo-priceservice
+          uri: http://fsdemo-priceservice:8083
+          predicates:
+            - Path= /priceservice/**
+          filters:
+            - StripPrefix=0
+
         - id: fsdemo-authsrv
           uri: http://fsdemo-authsrv:8084
           predicates:
