@@ -53,9 +53,10 @@ spring:
           filters:
             - StripPrefix=0
 
-        - id: fsdemo-authsrv
-          uri: http://fsdemo-authsrv:8084
-          predicates:
-            - Path= /oauth/**
-          filters:
-            - StripPrefix=0
+#        - id: fsdemo-authsrv
+#          uri: http://fsdemo-authsrv:8084
+#          predicates:
+#            - Path= /oauth/**
+#            - Path= /auth/**
+#          filters:
+#            - StripPrefix=0
