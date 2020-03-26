@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "********************************************************"
-echo "Starting Transaction Agent Service ..."
+echo "Starting Spring Cloud Gateway Service ..."
 echo "********************************************************"
 java -Ddebug=$DEBUG_MODE \
      -Dserver.port=$SERVERPORT \

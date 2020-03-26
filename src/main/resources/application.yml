@@ -1,6 +1,6 @@
 server:
   port: 8060
-debug: false
+debug: true
 fsdemo:
   authPath: /oauth/authorize
   loginPath: /usercenter/login
